@@ -1,16 +1,11 @@
 #include "pclviewer.h"
 #include "./ui_pclviewer.h"
 
-#include <QFile>
-#include <QFileDialog>
-#include <QMessageBox>
-
-#include <pcl/io/pcd_io.h>
-#include <pcl/point_types.h>
-
 PCLViewer::PCLViewer(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::PCLViewer)
+    , ui(new Ui::PCLViewer),
+      filtratedCloud(new pcl::PointCloud<pcl::PointXYZRGBA>),
+      referenceCloud(new pcl::PointCloud<pcl::PointXYZRGBA>)
 {
     ui->setupUi(this);
 
@@ -22,23 +17,47 @@ PCLViewer::~PCLViewer()
     delete ui;
 }
 
-void PCLViewer::on_openButton_clicked()
+void PCLViewer::on_openFileButton_clicked()
 {
 
-    QString fileName = QFileDialog::getOpenFileName(this, "Open File", "../", "PCD Files (*.pcd)");
+    QString fileName = QFileDialog::getOpenFileName(this, "Open File", "../", "PLY Files (*.ply)");
     ui->fileEdit->setText(fileName);
 }
 
-void PCLViewer::on_reviewButton_clicked()
+bool PCLViewer::checkFileExistance(QString fileName)
 {
-    QString fileName = ui->fileEdit->text();
     QFile file(fileName);
     if (!file.exists())
     {
         QMessageBox::warning(this, "Error", "File with the given path can't be found.");
-        return;
     }
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-    pcl::io::loadPCDFile<pcl::PointXYZRGB>(fileName.toStdString(), *cloud);
-    ui->sceneWindow->addCloud(cloud);
+    return file.exists();
+}
+
+void PCLViewer::on_loadReferenceButton_clicked()
+{
+    QString fileName = ui->fileEdit->text();
+    if (checkFileExistance(fileName))
+    {
+        pcl::io::loadPLYFile<pcl::PointXYZRGBA>(fileName.toStdString(), *referenceCloud);
+    }
+}
+
+void PCLViewer::on_openFiltratedButton_clicked()
+{
+    ui->sceneWindow->showCloud(filtratedCloud);
+}
+
+void PCLViewer::on_openReferenceButton_clicked()
+{
+    ui->sceneWindow->showCloud(referenceCloud);
+}
+
+void PCLViewer::on_loadFiltrateddButton_clicked()
+{
+    QString fileName = ui->fileEdit->text();
+    if (checkFileExistance(fileName))
+    {
+        pcl::io::loadPLYFile<pcl::PointXYZRGBA>(fileName.toStdString(), *filtratedCloud);
+    }
 }

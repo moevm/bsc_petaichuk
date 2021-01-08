@@ -9,11 +9,12 @@ SceneWindow::SceneWindow(QWidget *parent) : QVTKOpenGLWidget(parent)
     m_renderWindow = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     m_renderWindow->AddRenderer(renderer);
     m_viewer.reset(new PCLVisualizer(renderer, m_renderWindow, "cloud", false));
+    m_viewer->setBackgroundColor(0.2, 0.2, 0.2, 0);
     this->SetRenderWindow(m_renderWindow);
     this->update();
 }
 
-void SceneWindow::addCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
+void SceneWindow::showCloud(pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud)
 {
     if (!m_viewer->updatePointCloud(cloud, "cloud"))
     {

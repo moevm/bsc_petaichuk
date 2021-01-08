@@ -13,7 +13,7 @@ class SceneWindow : public QVTKOpenGLWidget
 
 public:
     explicit SceneWindow(QWidget *parent = nullptr);
-    void addCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
+    void showCloud(pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud);
 
 private:
     pcl::shared_ptr<PCLVisualizer> m_viewer;
