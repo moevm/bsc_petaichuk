@@ -38,6 +38,12 @@ if(ANDROID)
     pclviewer.ui
     scenewindow.cpp
     scenewindow.h
+    filterpointcloudstrategy.cpp
+    filterpointcloudstrategy.h
+    fileloader.cpp
+    fileloader.h
+    filesaver.cpp
+    filesaver.h
   )
 else()
   add_executable(PCL_Viewer
@@ -47,6 +53,12 @@ else()
     pclviewer.ui
     scenewindow.cpp
     scenewindow.h
+    filterpointcloudstrategy.cpp
+    filterpointcloudstrategy.h
+    fileloader.cpp
+    fileloader.h
+    filesaver.cpp
+    filesaver.h
   )
 endif()
 

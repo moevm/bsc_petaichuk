@@ -1,13 +1,16 @@
 #ifndef PCLVIEWER_H
 #define PCLVIEWER_H
 
+#include <ctime>
+
 #include <QWidget>
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include <pcl/io/ply_io.h>
-#include <pcl/point_types.h>
+#include "fileloader.h"
+#include "filesaver.h"
+#include "filterpointcloudstrategy.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PCLViewer; }
@@ -23,10 +26,15 @@ public:
 
 private slots:
     void on_openFileButton_clicked();
-    void on_loadFiltrateddButton_clicked();
+    void on_loadFiltratedButton_clicked();
     void on_loadReferenceButton_clicked();
     void on_openFiltratedButton_clicked();
     void on_openReferenceButton_clicked();
+    void on_filterButton_clicked();
+    void on_openSaveFileButton_clicked();
+    void on_saveFiltratedButton_clicked();
+
+    void on_filterAlgorythmsComboBox_currentIndexChanged(int index);
 
 private:
     bool checkFileExistance(QString fileName);
@@ -34,5 +42,8 @@ private:
     Ui::PCLViewer *ui;
     pcl::PointCloud<pcl::PointXYZRGBA>::Ptr filtratedCloud;
     pcl::PointCloud<pcl::PointXYZRGBA>::Ptr referenceCloud;
+    FilterPointCloudStrategy *filterStrategy;
+    FileLoader *fileLoader;
+    FileSaver *fileSaver;
 };
 #endif // PCLVIEWER_H

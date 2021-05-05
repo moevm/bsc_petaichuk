@@ -16,6 +16,7 @@ SceneWindow::SceneWindow(QWidget *parent) : QVTKOpenGLWidget(parent)
 
 void SceneWindow::showCloud(pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud)
 {
+    m_viewer->removeAllPointClouds();
     if (!m_viewer->updatePointCloud(cloud, "cloud"))
     {
         m_viewer->addPointCloud(cloud, "cloud");
