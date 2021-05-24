@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(PCL_Viewer LANGUAGES CXX)
+project(Point_Cloud_Filter_Tool LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -31,7 +31,7 @@ find_package(VTK REQUIRED)
 find_package(PCL 1.11 REQUIRED)
 
 if(ANDROID)
-  add_library(PCL_Viewer SHARED
+  add_library(Point_Cloud_Filter_Tool SHARED
     main.cpp
     pclviewer.cpp
     pclviewer.h
@@ -44,9 +44,11 @@ if(ANDROID)
     fileloader.h
     filesaver.cpp
     filesaver.h
+    statisticsmanager.cpp
+    statisticsmanager.h
   )
 else()
-  add_executable(PCL_Viewer
+  add_executable(Point_Cloud_Filter_Tool
     main.cpp
     pclviewer.cpp
     pclviewer.h
@@ -59,7 +61,9 @@ else()
     fileloader.h
     filesaver.cpp
     filesaver.h
+    statisticsmanager.cpp
+    statisticsmanager.h
   )
 endif()
 
-target_link_libraries(PCL_Viewer Qt5::Widgets Qt5::OpenGL ${VTK_LIBRARIES} ${PCL_LIBRARIES})
+target_link_libraries(Point_Cloud_Filter_Tool Qt5::Widgets Qt5::OpenGL ${VTK_LIBRARIES} ${PCL_LIBRARIES})
